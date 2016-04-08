@@ -10,7 +10,7 @@ It decides main problem of backuping to clouds - privacy of data.
 Why I write this tools? Because in one day I wanted to backup my set of films and music and info to cloud. One of the reasons was no space on disk. And I took great think - put all this files to clouds. But I didn't want to share my information with cloud provider. So I had several problems - file size restructions, crypto representation of uncrypted files and access to this files after uploading.
 
 So, this tool set consist of 4 parts:
-1. **Fs** - represents your directory as one file (using squashfs or tar) without needing extra space on disk (but need some time to sending an array of zeros..) and you cannot change files in that directory, when you backuping.
+- **Fs** - represents your directory as one file (using squashfs or tar) without needing extra space on disk (but need some time to sending an array of zeros..) and you cannot change files in that directory, when you backuping.
 - **Crypt** - represents file as crypted using you favorite tool cryptsetup (I named this part *"vice versa cryptsetup"*)
 - **Split** - reperesents file as group of files with fixed size (need to overcome restrictions of file sizes)
 - **Http** - reperesents remote file on webserver as local (like *httpfs*, but easily and clearer (250 vs 1150 lines) and written on curl (more stable and so mush opportunities to growing)
