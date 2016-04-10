@@ -96,9 +96,12 @@ fuse_read(const char *path, char *buf, size_t size, off_t offset,
 			}
 				
 			off_t res = pread(fd_now, buf, size_now, offset - it->second->start);
-			if (res != size_now){
-				printf("[post] bug in reading, res = %lld\n", (long long int) res);
-				return -EIO;
+			if (res == -1){
+				printf("[post] bug in reading, errno = %d\n", errno);
+				return -errno;
+			}else if(res < size_now){
+				printf("[post] bug in reading, small res = %lld size = %lld\n", (long long int) res, (long long int) size_now);
+				memset(buf + res, 0, size_now - res);
 			}
 		}else{
 			off_t res = pread(fd_orig, buf, size_now, offset);

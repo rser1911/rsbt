@@ -121,7 +121,10 @@ fuse_read(const char *path, char *buf, size_t size, off_t offset,
 	
 	if (!f->flag){ 
 		int res = pread(f->fd, buf, size, offset);
-		if (res == -1) return -errno;
+		if (res == -1){
+			printf("read error %lld %lld %s\n", (my_off_t) size, (my_off_t) offset, f->str);
+			return -errno;
+		}
 		return res + copy_size;
 	} else {
 		memset(buf, 0x00, size);

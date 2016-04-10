@@ -47,6 +47,7 @@
 #define MAX_BUF 	64 * 1024
 static int 			fd_main;
 static off_t 		file_size;
+#define my_off_t long long int
 
 
 static int
@@ -56,8 +57,19 @@ fuse_read(const char *path, char *buf, size_t size, off_t offset,
 	if (offset >= file_size) return 0;
 	if (offset + (off_t) size > file_size) size = file_size - offset;
 	
+	
 	if (size == 0) return 0;
-	return pread(fd_main, buf, size, offset);
+	int ret =  pread(fd_main, buf, size, offset);
+	if (ret == -1){
+		printf("read ret %d %s %lld %lld\n", ret, path, (my_off_t) size, (my_off_t) offset);
+		return -errno;
+	}
+	
+	if (ret < size)
+		memset(buf + ret, 0, size - ret);
+
+	return size;
+	
 }
 
 static int
@@ -184,6 +196,6 @@ int main(int argc, char* argv[]) {
 	if (res == 0)
 		pwrite(fd_main, buf, 1, file_size - 1);
 		
-	printf("size = %llu\n", (long long int )file_size);
+	printf("size = %llu\n", (my_off_t) file_size);
 	return res_main;
 }

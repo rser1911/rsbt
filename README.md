@@ -4,14 +4,14 @@ RS Backup Tools
 About
 -----
 
-RS Backup Tools is a set of tools to prepare your data to uploading to free cloud and use it after uploading.
-It decides main problem of backuping to clouds - privacy of data.
+RS Backup Tools is a set of tools that you can use to store huge amount of data in free clouds. 
+RS Backup Tools help you to prepare your data for upload to free cloud and to use it after uploading. It solves main the primary issue of backuping to clouds - privacy of data.
 
-Why I write this tools? Because in one day I wanted to backup my set of films and music and info to cloud. One of the reasons was no space on disk. And I took great think - put all this files to clouds. But I didn't want to share my information with cloud provider. So I had several problems - file size restructions, crypto representation of uncrypted files and access to this files after uploading.
+Why I write this tools? Because one day I decided to backup my collections of films, music and other info to cloud. One of the reasons was no space on the disk. And I took great think - put all these files to clouds. But I didn't want to share my information with cloud provider. So I had several issues - file size restrictions, crypto representation of uncrypted files and access to this files after uploading. 
 
 So, this tool set consist of 4 parts:
-- **Fs** - represents your directory as one file (using squashfs or tar) without needing extra space on disk (but need some time to sending an array of zeros..) and you cannot change files in that directory, when you backuping.
-- **Crypt** - represents file as crypted using you favorite tool cryptsetup (I named this part *"vice versa cryptsetup"*)
+- **Fs** - represents your directory as one file (using squashfs or tar) and doesn't need any extra space on disk (but need some time to send an array of zeros..) and you cannot change files in that directory during processing.
+- **Crypt** - represents file as crypted using your favorite tool cryptsetup (I named this part *"vice versa cryptsetup"*)
 - **Split** - reperesents file as group of files with fixed size (need to overcome restrictions of file sizes)
 - **Http** - reperesents remote file on webserver as local (like *httpfs*, but easily and clearer (250 vs 1150 lines) and written on curl (more stable and so mush opportunities to growing)
 
@@ -55,7 +55,7 @@ $ sync
 $ rsbt-post tmp/img tmp/post -o allow_other
 ```
 
-After this you have *tmp/post/file*, that looks like you create squashfs without this all tools, but...
+After this you have *tmp/post/file*, that looks like you created squashfs without all this tools, but...
 
 ```
 $ du -h tmp/img
@@ -65,11 +65,11 @@ $ du -h --apparent-size tmp/img
 ```
 
 And if you select directory with films without small files, you have something like 10Mb on 10GB.
-BUT. It take time to send big arrays of zeros and limits by memory speed.  
+BUT. It takes time to send big arrays of zeros and limits by memory speed.  
 On my computer this is 200 MB/s. And 10Gb takes 50 sec.  
 
-Now I describe how it's works.  
-rsbt-pre represents real fs, but files consists only zeros and magic string with description, where file is and what it size is.
+Now let me describe how it's works.  
+rsbt-pre represents real fs, but files consist of only zeros and magic string with description, where file is and what it size is.
 
 ```
 $ rsbt-pre / tmp/pre
@@ -107,7 +107,7 @@ $ rm tmp/test
 
 You see? 128 Mb of zeros "costs" 12K of file.
 
-And on the finished step we processing our file with *rsbt-post*, that read *magic* marks and represents file like normal created fs with data in files.  
+And on the last step we process our file with *rsbt-post*, that reads *magic* marks and represents file like normal created fs with data in files.  
 You can check this, if you mount *tmp/post/file* to some directory. (*"user_allow_other"* needed for access from root to *tmp/post/file*, see *Test* part).
 
 ```
