@@ -72,7 +72,7 @@ fuse_read(const char *path, char *buf, size_t size, off_t offset,
 	if (size == 0) return 0;
 	
 	std::map<off_t, desc_t *>::iterator it;
-	it = file_map.upper_bound(offset);
+	it = file_map.upper_bound(offset - 1);
 	 
 	off_t save_size = size;
 	for (;;){
@@ -97,10 +97,12 @@ fuse_read(const char *path, char *buf, size_t size, off_t offset,
 				
 			off_t res = pread(fd_now, buf, size_now, offset - it->second->start);
 			if (res == -1){
-				printf("[post] bug in reading, errno = %d\n", errno);
+				
+				printf("[post] bug in reading, errno = %d size = %lld, off = %lld, real off = %lld, start = %lld, file %s\n", 
+					errno, (long long int) size_now, (long long int) offset - it->second->start, (long long int) offset, (long long int) it->second->start, it->second->name);
 				return -errno;
 			}else if(res < size_now){
-				printf("[post] bug in reading, small res = %lld size = %lld\n", (long long int) res, (long long int) size_now);
+				printf("[post] bug in reading, small res = %lld size = %lld, file %s\n", (long long int) res, (long long int) size_now, it->second->name);
 				memset(buf + res, 0, size_now - res);
 			}
 		}else{

@@ -42,7 +42,7 @@
 	int main_old(int, char **);
 	int main(int argc, char ** argv) { fd_printf = dup(0); return main_old(argc, argv); }
 	#define main(a,b) main_old(a,b)
-	#define printf(format, ...) dprintf(fd_printf, __FILE__ ":\t\t" format, __VA_ARGS__)
+	#define printf(format, ...) dprintf(fd_printf, __FILE__ ":\t" format, __VA_ARGS__)
 #endif
 
 #define NAME_SIZE 	1024
