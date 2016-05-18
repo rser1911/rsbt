@@ -10,12 +10,12 @@ prefix =
 
 all:
 	@mkdir bin 2>/dev/null || true
-	$(CPP) $(CFLAGS) $(FUSE) -o bin/$(PREF)post src/post.cpp
-	$(CC) $(CFLAGS) $(FUSE) -o bin/$(PREF)hole src/hole.c
-	$(CC) $(CFLAGS) $(FUSE) -o bin/$(PREF)pre src/pre.c
-	$(CC) $(CFLAGS) $(FUSE) -o bin/$(PREF)crypt src/crypt.c
-	$(CC) $(CFLAGS) $(FUSE) -o bin/$(PREF)split src/split.c
-	$(CC) $(CFLAGS) $(FUSE) $(CURL) -o bin/$(PREF)http src/http.c
+	$(CPP) $(CFLAGS) -o bin/$(PREF)post src/post.cpp $(FUSE)
+	$(CC) $(CFLAGS)  -o bin/$(PREF)hole src/hole.c $(FUSE)
+	$(CC) $(CFLAGS)  -o bin/$(PREF)pre src/pre.c $(FUSE)
+	$(CC) $(CFLAGS)  -o bin/$(PREF)crypt src/crypt.c $(FUSE)
+	$(CC) $(CFLAGS)  -o bin/$(PREF)split src/split.c $(FUSE)
+	$(CC) $(CFLAGS)  -o bin/$(PREF)http src/http.c $(FUSE) $(CURL)
 
 install:
 	install -m 0755 bin/$(PREF)post $(prefix)/bin
