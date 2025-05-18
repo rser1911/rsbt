@@ -1,4 +1,4 @@
-RS Backup Tools
+RS Backup Tools [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rser1911/rsbt)
 ===============
 
 About
